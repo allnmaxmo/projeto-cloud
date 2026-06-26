@@ -10,6 +10,10 @@
   main{text-align:center; padding:30px; max-width:520px;}
   h1{font-size:42px; margin:0 0 10px;}
   #status{font-size:18px; color:#cbd5e1; min-height:54px; line-height:1.5;}
+  input{display:block; width:100%; box-sizing:border-box; margin:18px 0 0;
+    padding:12px 14px; border:1px solid #334155; border-radius:10px;
+    background:#1e293b; color:#f8fafc; font-size:15px; text-align:center;}
+  input::placeholder{color:#94a3b8;}
   button{margin-top:18px; background:#38bdf8; color:#0f172a; border:none;
     padding:12px 22px; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer;}
   button:hover{background:#7dd3fc;}
@@ -19,6 +23,7 @@
   <main>
     <h1>Olá, Nuvem</h1>
     <p id="status">Carregando a resposta do servidor...</p>
+    <input id="nome" type="text" placeholder="Digite seu nome">
     <button id="btn">Buscar de novo</button>
   </main>
 
@@ -29,9 +34,12 @@
 
   async function buscar() {
     const status = document.getElementById("status");
+    const nome = document.getElementById("nome").value.trim();
+    const url = nome ? URL_DO_WORKER + "?nome=" + encodeURIComponent(nome) : URL_DO_WORKER;
+
     status.textContent = "Buscando...";
     try {
-      const resposta = await fetch(URL_DO_WORKER);
+      const resposta = await fetch(url);
       const dados = await resposta.json();
       status.textContent =
         dados.mensagem +
