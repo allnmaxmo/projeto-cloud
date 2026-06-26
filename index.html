@@ -33,7 +33,12 @@
     try {
       const resposta = await fetch(URL_DO_WORKER);
       const dados = await resposta.json();
-      status.textContent = dados.mensagem + " Hora do servidor: " + dados.horaDoServidor;
+      status.textContent =
+        dados.mensagem +
+        " Hora do servidor: " +
+        dados.horaDoServidor +
+        " Frase do dia: " +
+        dados.fraseDoDia;
     } catch (erro) {
       status.textContent = "Não consegui falar com o Worker. Confira a URL.";
     }
