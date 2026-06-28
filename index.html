@@ -24,7 +24,8 @@
     <h1>Olá, Nuvem</h1>
     <p id="status">Carregando a resposta do servidor...</p>
     <input id="nome" type="text" placeholder="Digite seu nome">
-    <button id="btn">Buscar de novo</button>
+    <button id="btnHora">Buscar hora</button>
+    <button id="btnSorteio">Sortear numero</button>
   </main>
 
 <script>
@@ -32,14 +33,22 @@
   // Troque o texto abaixo pela URL do SEU Worker (termina em .workers.dev).
   const URL_DO_WORKER = "https://projetinhoestudocloud-api.allnmaxmo.workers.dev/";
 
-  async function buscar() {
+  function montarUrl(caminho) {
+    return new URL(caminho, URL_DO_WORKER);
+  }
+
+  async function buscarHora() {
     const status = document.getElementById("status");
     const nome = document.getElementById("nome").value.trim();
-    const url = nome ? URL_DO_WORKER + "?nome=" + encodeURIComponent(nome) : URL_DO_WORKER;
+    const url = montarUrl("/hora");
+
+    if (nome) {
+      url.searchParams.set("nome", nome);
+    }
 
     status.textContent = "Buscando...";
     try {
-      const resposta = await fetch(url);
+      const resposta = await fetch(url.toString());
       const dados = await resposta.json();
       status.textContent =
         dados.mensagem +
@@ -48,12 +57,27 @@
         " Frase do dia: " +
         dados.fraseDoDia;
     } catch (erro) {
-      status.textContent = "Não consegui falar com o Worker. Confira a URL.";
+      status.textContent = "Nao consegui falar com o Worker. Confira a URL.";
     }
   }
 
-  document.getElementById("btn").addEventListener("click", buscar);
-  buscar();
+  async function buscarSorteio() {
+    const status = document.getElementById("status");
+    const url = montarUrl("/sorteio");
+
+    status.textContent = "Sorteando...";
+    try {
+      const resposta = await fetch(url.toString());
+      const dados = await resposta.json();
+      status.textContent = dados.mensagem + " " + dados.numeroSorteado;
+    } catch (erro) {
+      status.textContent = "Nao consegui falar com o Worker. Confira a URL.";
+    }
+  }
+
+  document.getElementById("btnHora").addEventListener("click", buscarHora);
+  document.getElementById("btnSorteio").addEventListener("click", buscarSorteio);
+  buscarHora();
 </script>
 </body>
 </html>
