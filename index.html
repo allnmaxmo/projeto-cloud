@@ -21,7 +21,7 @@
 </head>
 <body>
   <main>
-    <h1>Olá, Nuvem</h1>
+    <h1 id="titulo">Olá, Nuvem</h1>
     <p id="status">Carregando a resposta do servidor...</p>
     <input id="nome" type="text" placeholder="Digite seu nome">
     <button id="btnHora">Buscar hora</button>
@@ -54,9 +54,9 @@
         return;
       }
       const dados = await resposta.json();
+      document.getElementById("titulo").textContent = dados.mensagem;
       status.textContent =
-        dados.mensagem +
-        " Hora do servidor: " +
+        "Hora do servidor: " +
         dados.horaDoServidor +
         " Frase do dia: " +
         dados.fraseDoDia;
