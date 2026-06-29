@@ -49,6 +49,10 @@
     status.textContent = "Buscando...";
     try {
       const resposta = await fetch(url.toString());
+      if (!resposta.ok) {
+        status.textContent = "Não encontrei essa rota. Tente novamente em alguns instantes.";
+        return;
+      }
       const dados = await resposta.json();
       status.textContent =
         dados.mensagem +
@@ -68,6 +72,10 @@
     status.textContent = "Sorteando...";
     try {
       const resposta = await fetch(url.toString());
+      if (!resposta.ok) {
+        status.textContent = "Não encontrei essa rota. Tente novamente em alguns instantes.";
+        return;
+      }
       const dados = await resposta.json();
       status.textContent = dados.mensagem + " " + dados.numeroSorteado;
     } catch (erro) {
