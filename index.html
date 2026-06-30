@@ -228,9 +228,45 @@
   }
 
   .indice-desafios li {
+    background: var(--panel);
+  }
+
+  .botao-desafio {
+    width: 100%;
     min-height: 92px;
+    display: block;
+    border: 0;
+    border-radius: 0;
     padding: 14px;
     background: var(--panel);
+    color: inherit;
+    font-weight: 400;
+    text-align: left;
+    white-space: normal;
+    transition:
+      transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+      background 220ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .botao-desafio:hover {
+    background: #1d1d20;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    transform: translateY(-2px);
+  }
+
+  .botao-desafio:active {
+    transform: translateY(0);
+  }
+
+  .botao-desafio:focus-visible {
+    outline: 3px solid rgba(167, 184, 162, 0.32);
+    outline-offset: -3px;
+  }
+
+  .botao-desafio.desafio-ativo {
+    background: rgba(167, 184, 162, 0.08);
+    box-shadow: inset 0 0 0 1px rgba(167, 184, 162, 0.34);
   }
 
   .indice-desafios span {
@@ -246,6 +282,126 @@
     color: var(--muted);
     font-size: 13px;
     line-height: 1.45;
+  }
+
+  .leitor-desafio {
+    display: grid;
+    gap: 12px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px;
+    background: var(--panel);
+  }
+
+  .cabecalho-leitor {
+    margin: 0;
+    color: var(--accent);
+    font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+    font-size: 12px;
+  }
+
+  .preview-md {
+    max-height: 360px;
+    margin: 0;
+    overflow: auto;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.65;
+  }
+
+  .preview-md h1,
+  .preview-md h2,
+  .preview-md h3,
+  .preview-md p,
+  .preview-md ul,
+  .preview-md pre {
+    margin: 0;
+  }
+
+  .preview-md h1 {
+    color: var(--text);
+    font-size: 20px;
+    line-height: 1.25;
+  }
+
+  .preview-md h2 {
+    margin-top: 20px;
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.35;
+  }
+
+  .preview-md h3 {
+    margin-top: 16px;
+    color: var(--accent);
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  .preview-md p {
+    margin-top: 10px;
+  }
+
+  .preview-md ul {
+    display: grid;
+    gap: 6px;
+    margin-top: 10px;
+    padding-left: 18px;
+  }
+
+  .preview-md pre {
+    margin-top: 12px;
+    overflow: auto;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px;
+    background: #0d0d0f;
+  }
+
+  .preview-md code {
+    color: var(--text);
+    font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+  }
+
+  .preview-md p code,
+  .preview-md li code {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1px 5px;
+    background: #0d0d0f;
+  }
+
+  .leitor-fechado {
+    display: none;
+  }
+
+  .leitor-em-transicao {
+    animation: revelar-leitor 260ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes revelar-leitor {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .botao-desafio,
+    .botao-desafio:hover,
+    .leitor-em-transicao {
+      animation: none;
+      transition: none;
+      transform: none;
+    }
   }
 
   @media (max-width: 760px) {
@@ -314,26 +470,40 @@
       <h2 id="desafios-titulo">Desafios no código</h2>
       <ol>
         <li>
-          <span>desafio 1</span>
-          <p>Frase do dia retornada pelo Worker.</p>
+          <button class="botao-desafio" type="button" data-arquivo-md="explicacao-frase-do-dia.md" aria-expanded="false" aria-controls="leitor-desafio">
+            <span>desafio 1</span>
+            <p>Frase do dia retornada pelo Worker.</p>
+          </button>
         </li>
         <li>
-          <span>desafio 2</span>
-          <p>Saudação usando o nome enviado.</p>
+          <button class="botao-desafio" type="button" data-arquivo-md="explicacao-saudacao.md" aria-expanded="false" aria-controls="leitor-desafio">
+            <span>desafio 2</span>
+            <p>Saudação usando o nome enviado.</p>
+          </button>
         </li>
         <li>
-          <span>desafio 3</span>
-          <p>Rotas separadas para hora e sorteio.</p>
+          <button class="botao-desafio" type="button" data-arquivo-md="explicacao-rotas-worker.md" aria-expanded="false" aria-controls="leitor-desafio">
+            <span>desafio 3</span>
+            <p>Rotas separadas para hora e sorteio.</p>
+          </button>
         </li>
         <li>
-          <span>desafio 4</span>
-          <p>404 claro quando a rota não existe.</p>
+          <button class="botao-desafio" type="button" data-arquivo-md="explicacao-erro-404.md" aria-expanded="false" aria-controls="leitor-desafio">
+            <span>desafio 4</span>
+            <p>404 claro quando a rota não existe.</p>
+          </button>
         </li>
         <li>
-          <span>desafio 5</span>
-          <p>Contador salvo no KV da Cloudflare.</p>
+          <button class="botao-desafio" type="button" data-arquivo-md="explicacao-contador-visitas.md" aria-expanded="false" aria-controls="leitor-desafio">
+            <span>desafio 5</span>
+            <p>Contador salvo no KV da Cloudflare.</p>
+          </button>
         </li>
       </ol>
+      <div class="leitor-desafio" id="leitor-desafio" aria-live="polite">
+        <p class="cabecalho-leitor" id="titulo-leitor">Leitor de explicação</p>
+        <div class="preview-md" id="texto-md">Clique em um desafio para ler a explicação.</div>
+      </div>
     </section>
   </main>
 
@@ -344,6 +514,159 @@
 
   function montarUrl(caminho) {
     return new URL(caminho, URL_DO_WORKER);
+  }
+
+  function prepararLeitorDesafios() {
+    const botoes = document.querySelectorAll(".botao-desafio");
+    const leitor = document.getElementById("leitor-desafio");
+    const tituloLeitor = document.getElementById("titulo-leitor");
+    const textoMd = document.getElementById("texto-md");
+    const textoInicial = "Clique em um desafio para ler a explicação.";
+
+    function escaparHtml(texto) {
+      return texto
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+
+    function renderizarMarkdown(markdown) {
+      const linhas = markdown.split(/\r?\n/);
+      let html = "";
+      let listaAberta = false;
+      let codigoAberto = false;
+      let codigo = [];
+
+      function fecharLista() {
+        if (listaAberta) {
+          html += "</ul>";
+          listaAberta = false;
+        }
+      }
+
+      function fecharCodigo() {
+        if (codigoAberto) {
+          html += "<pre><code>" + escaparHtml(codigo.join("\n")) + "</code></pre>";
+          codigoAberto = false;
+          codigo = [];
+        }
+      }
+
+      linhas.forEach((linha) => {
+        if (linha.trim().startsWith("```")) {
+          if (codigoAberto) {
+            fecharCodigo();
+          } else {
+            fecharLista();
+            codigoAberto = true;
+            codigo = [];
+          }
+          return;
+        }
+
+        if (codigoAberto) {
+          codigo.push(linha);
+          return;
+        }
+
+        const texto = linha.trim();
+
+        if (!texto) {
+          fecharLista();
+          return;
+        }
+
+        if (texto.startsWith("### ")) {
+          fecharLista();
+          html += "<h3>" + escaparHtml(texto.slice(4)) + "</h3>";
+          return;
+        }
+
+        if (texto.startsWith("## ")) {
+          fecharLista();
+          html += "<h2>" + escaparHtml(texto.slice(3)) + "</h2>";
+          return;
+        }
+
+        if (texto.startsWith("# ")) {
+          fecharLista();
+          html += "<h1>" + escaparHtml(texto.slice(2)) + "</h1>";
+          return;
+        }
+
+        if (texto.startsWith("- ")) {
+          if (!listaAberta) {
+            html += "<ul>";
+            listaAberta = true;
+          }
+          html += "<li>" + escaparHtml(texto.slice(2)) + "</li>";
+          return;
+        }
+
+        fecharLista();
+        html += "<p>" + escaparHtml(texto) + "</p>";
+      });
+
+      fecharCodigo();
+      fecharLista();
+
+      return html || "<p>" + textoInicial + "</p>";
+    }
+
+    function limparEstadoDesafios() {
+      botoes.forEach((item) => {
+        item.classList.remove("desafio-ativo");
+        item.setAttribute("aria-expanded", "false");
+      });
+    }
+
+    function fecharLeitor() {
+      limparEstadoDesafios();
+      tituloLeitor.textContent = "Leitor de explicação";
+      textoMd.textContent = textoInicial;
+      leitor.classList.add("leitor-fechado");
+      leitor.classList.remove("leitor-em-transicao");
+    }
+
+    async function carregarTextoDesafio(botao) {
+      const arquivoMd = botao.dataset.arquivoMd;
+      const tituloDesafio = botao.querySelector("span").textContent;
+      const estaAberto = botao.classList.contains("desafio-ativo");
+
+      if (estaAberto) {
+        fecharLeitor();
+        return;
+      }
+
+      limparEstadoDesafios();
+      botao.classList.add("desafio-ativo");
+      botao.setAttribute("aria-expanded", "true");
+      tituloLeitor.textContent = tituloDesafio + " aberto";
+      textoMd.textContent = "Carregando explicação...";
+      leitor.classList.remove("leitor-fechado");
+      leitor.classList.remove("leitor-em-transicao");
+      void leitor.offsetWidth;
+      leitor.classList.add("leitor-em-transicao");
+
+      try {
+        const resposta = await fetch(arquivoMd, {
+          cache: "no-store"
+        });
+
+        if (!resposta.ok) {
+          textoMd.textContent = "Não foi possível carregar este arquivo de explicação.";
+          return;
+        }
+
+        textoMd.innerHTML = renderizarMarkdown(await resposta.text());
+      } catch (erro) {
+        textoMd.textContent = "Não foi possível carregar este arquivo de explicação.";
+      }
+    }
+
+    botoes.forEach((botao) => {
+      botao.addEventListener("click", () => carregarTextoDesafio(botao));
+    });
   }
 
   // Desafio 5 - contador de visita
@@ -421,6 +744,7 @@
 
   document.getElementById("btnHora").addEventListener("click", buscarHora);
   document.getElementById("btnSorteio").addEventListener("click", buscarSorteio);
+  prepararLeitorDesafios();
   carregarContador();
   buscarHora();
 </script>
