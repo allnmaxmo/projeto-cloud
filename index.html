@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Olá, Nuvem</title>
+<title>Projetinho Cloud</title>
 <style>
   body{margin:0; min-height:100vh; display:grid; place-items:center;
     font-family:system-ui, sans-serif; background:#0f172a; color:#f8fafc;}
@@ -23,6 +23,7 @@
   <main>
     <h1 id="titulo">Olá, Nuvem</h1>
     <p id="status">Carregando a resposta do servidor...</p>
+    <p id="contador-visitas">Carregando contador...</p>
     <input id="nome" type="text" placeholder="Digite seu nome">
     <button id="btnHora">Buscar hora</button>
     <button id="btnSorteio">Sortear numero</button>
@@ -35,6 +36,27 @@
 
   function montarUrl(caminho) {
     return new URL(caminho, URL_DO_WORKER);
+  }
+
+  async function carregarContador() {
+    const contador = document.getElementById("contador-visitas");
+    const url = montarUrl("/api/contador");
+
+    try {
+      const resposta = await fetch(url.toString(), {
+        cache: "no-store"
+      });
+
+      if (!resposta.ok) {
+        contador.textContent = "Não foi possível carregar o contador de visitas.";
+        return;
+      }
+
+      const dados = await resposta.json();
+      contador.textContent = "Você é a visita número " + dados.visitas;
+    } catch (erro) {
+      contador.textContent = "Não foi possível carregar o contador de visitas.";
+    }
   }
 
   async function buscarHora() {
@@ -85,6 +107,7 @@
 
   document.getElementById("btnHora").addEventListener("click", buscarHora);
   document.getElementById("btnSorteio").addEventListener("click", buscarSorteio);
+  carregarContador();
   buscarHora();
 </script>
 </body>
