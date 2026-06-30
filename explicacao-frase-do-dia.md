@@ -1,24 +1,24 @@
-# Explicacao da `fraseDoDia`
+# Explicação da `fraseDoDia`
 
-Este arquivo explica como funciona a parte do codigo que sorteia uma frase no `worker.js` e envia essa frase para a pagina.
+Este arquivo explica como funciona a parte do código que sorteia uma frase no `worker.js` e envia essa frase para a página.
 
 ## Onde fica
 
-A logica principal esta no arquivo `worker.js`.
+A lógica principal está no arquivo `worker.js`.
 
 Primeiro, o Worker cria uma lista de frases:
 
 ```js
 const frases = [
   "Bom dia! Que hoje o café seja forte e a paciência também.",
-  "Acordei disposto… disposto a voltar a dormir.",
+  "Acordei disposto... disposto a voltar a dormir.",
   "Hoje eu acordei lindo. O espelho que lute.",
 ];
 ```
 
-Essa lista e um array. Um array guarda varios valores em sequencia.
+Essa lista é um array. Um array guarda vários valores em sequência.
 
-Cada frase tem uma posicao:
+Cada frase tem uma posição:
 
 ```js
 frases[0] // primeira frase
@@ -26,15 +26,15 @@ frases[1] // segunda frase
 frases[2] // terceira frase
 ```
 
-## Como a frase e sorteada
+## Como a frase é sorteada
 
-A frase e escolhida com esta linha:
+A frase é escolhida com esta linha:
 
 ```js
 const fraseDoDia = frases[Math.floor(Math.random() * frases.length)];
 ```
 
-O `Math.random()` gera um numero aleatorio entre `0` e quase `1`.
+O `Math.random()` gera um número aleatório entre `0` e quase `1`.
 
 O `frases.length` representa a quantidade de frases no array.
 
@@ -44,9 +44,9 @@ Quando multiplicamos:
 Math.random() * frases.length
 ```
 
-o resultado vira um numero aleatorio dentro do tamanho da lista.
+o resultado vira um número aleatório dentro do tamanho da lista.
 
-Depois, `Math.floor()` arredonda esse numero para baixo, transformando em uma posicao valida do array.
+Depois, `Math.floor()` arredonda esse número para baixo, transformando em uma posição válida do array.
 
 Exemplo:
 
@@ -56,7 +56,7 @@ Math.floor(2.73) // vira 2
 frases[2] // pega a terceira frase
 ```
 
-## Como a frase vai para a pagina
+## Como a frase vai para a página
 
 Depois de sortear a frase, o Worker coloca esse valor dentro do objeto `corpo` da rota `/hora`:
 
@@ -68,9 +68,9 @@ corpo = {
 };
 ```
 
-Esse objeto e transformado em JSON e enviado para a pagina pela funcao `responderJson`.
+Esse objeto é transformado em JSON e enviado para a página pela função `responderJson`.
 
-Na pagina, o `index.html` recebe o JSON:
+Na página, o `index.html` recebe o JSON:
 
 ```js
 const dados = await resposta.json();
@@ -84,9 +84,9 @@ dados.fraseDoDia
 
 ## Como aparece na tela
 
-No codigo atual, a frase do dia aparece abaixo da hora do servidor.
+No código atual, a frase do dia aparece abaixo da hora do servidor.
 
-O `index.html` monta o conteudo do `#status` com duas linhas:
+O `index.html` monta o conteúdo do `#status` com duas linhas:
 
 ```js
 status.innerHTML =
@@ -101,15 +101,15 @@ Na tela, a ideia fica assim:
 
 ```txt
 Hora do servidor: 29/06/2026, 22:27:29
-Frase do dia: Acordei disposto… disposto a voltar a dormir.
+Frase do dia: Acordei disposto... disposto a voltar a dormir.
 ```
 
 ## Quando a frase muda
 
-Cada vez que voce clica em **Buscar hora**, uma nova chamada ao Worker acontece.
+Cada vez que você clica em **Buscar hora**, uma nova chamada ao Worker acontece.
 
 Como o Worker sorteia uma frase em cada chamada, outra frase pode aparecer.
 
 ## Resumo
 
-O Worker guarda varias frases em um array, sorteia uma delas com `Math.random()`, envia no JSON como `fraseDoDia`, e a pagina mostra esse valor abaixo da hora usando `dados.fraseDoDia`.
+O Worker guarda várias frases em um array, sorteia uma delas com `Math.random()`, envia no JSON como `fraseDoDia`, e a página mostra esse valor abaixo da hora usando `dados.fraseDoDia`.

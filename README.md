@@ -2,39 +2,39 @@
 
 Projeto de estudo para testar Cloudflare Pages, Cloudflare Workers, rotas de API e armazenamento com Cloudflare KV.
 
-A pagina principal fica no `index.html` e consome uma API publicada em um Worker. O Worker fica no `worker.js` e responde as rotas usadas pela pagina.
+A página principal fica no `index.html` e consome uma API publicada em um Worker. O Worker fica no `worker.js` e responde às rotas usadas pela página.
 
 ## Objetivo
 
 O projeto foi criado para praticar pequenos desafios de backend e frontend na Cloudflare:
 
 - exibir uma frase do dia retornada pelo Worker;
-- enviar um nome pela pagina e receber uma saudacao personalizada;
+- enviar um nome pela página e receber uma saudação personalizada;
 - separar rotas para hora e sorteio;
 - tratar rotas desconhecidas com erro `404`;
 - salvar um contador de visitas no Cloudflare KV.
 
 ## Arquivos principais
 
-- `index.html`: pagina publicada no Cloudflare Pages.
+- `index.html`: página publicada no Cloudflare Pages.
 - `worker.js`: API publicada no Cloudflare Workers.
-- `explicacao-frase-do-dia.md`: explicacao do desafio 1.
-- `explicacao-saudacao.md`: explicacao do desafio 2.
-- `explicacao-rotas-worker.md`: explicacao do desafio 3.
-- `explicacao-erro-404.md`: explicacao do desafio 4.
-- `explicacao-contador-visitas.md`: explicacao do desafio 5.
+- `explicacao-frase-do-dia.md`: explicação do desafio 1.
+- `explicacao-saudacao.md`: explicação do desafio 2.
+- `explicacao-rotas-worker.md`: explicação do desafio 3.
+- `explicacao-erro-404.md`: explicação do desafio 4.
+- `explicacao-contador-visitas.md`: explicação do desafio 5.
 
-## Como a pagina funciona
+## Como a página funciona
 
 Quando o `index.html` abre, ele chama o Worker configurado nesta URL:
 
 ```txt
-https://projetinhoestudocloud-api.allnmaxmo.workers.dev/
+https://exemplo-worker.seu-subdominio.workers.dev/
 ```
 
-A pagina busca a hora do servidor, mostra uma frase do dia, atualiza o titulo com o nome digitado no formulario e carrega o contador de visitas.
+A página busca a hora do servidor, mostra uma frase do dia, atualiza o título com o nome digitado no formulário e carrega o contador de visitas.
 
-Tambem existe uma area de desafios. Ao clicar em cada desafio, a pagina carrega o arquivo `.md` correspondente e mostra uma previa formatada do conteudo.
+Também existe uma área de desafios. Ao clicar em cada desafio, a página carrega o arquivo `.md` correspondente e mostra uma prévia formatada do conteúdo.
 
 ## Rotas do Worker
 
@@ -42,7 +42,7 @@ Tambem existe uma area de desafios. Ao clicar em cada desafio, a pagina carrega 
 
 Retornam um JSON com:
 
-- `mensagem`: saudacao com o nome enviado ou uma mensagem padrao;
+- `mensagem`: saudação com o nome enviado ou uma mensagem padrão;
 - `horaDoServidor`: data e hora do servidor;
 - `fraseDoDia`: frase sorteada pelo Worker.
 
@@ -58,13 +58,13 @@ Exemplo:
 
 ### `/sorteio`
 
-Retorna um numero aleatorio de 1 a 100.
+Retorna um número aleatório de 1 a 100.
 
 Exemplo:
 
 ```json
 {
-  "mensagem": "Numero sorteado!",
+  "mensagem": "Número sorteado!",
   "numeroSorteado": 42
 }
 ```
@@ -83,7 +83,7 @@ Exemplo:
 
 ### Rotas desconhecidas
 
-Qualquer caminho nao configurado retorna:
+Qualquer caminho não configurado retorna:
 
 ```txt
 Rota não encontrada
@@ -93,13 +93,13 @@ com status HTTP `404`.
 
 ## Cloudflare KV
 
-O contador usa o binding KV existente:
+O contador usa um binding KV configurado no Worker. Exemplo fictício:
 
 ```js
-env.CHAVE-KV
+env.EXEMPLO_KV
 ```
 
-A chave usada para salvar o total de visitas e:
+A chave usada para salvar o total de visitas é:
 
 ```txt
 contador_de_visitas
@@ -110,27 +110,27 @@ contador_de_visitas
 Para testar a API publicada, abra as rotas no navegador:
 
 ```txt
-https://projetinhoestudocloud-api.allnmaxmo.workers.dev/hora?nome=NomeDoUsuario
-https://projetinhoestudocloud-api.allnmaxmo.workers.dev/sorteio
-https://projetinhoestudocloud-api.allnmaxmo.workers.dev/api/contador
-https://projetinhoestudocloud-api.allnmaxmo.workers.dev/exemplo
+https://exemplo-worker.seu-subdominio.workers.dev/hora?nome=NomeDoUsuario
+https://exemplo-worker.seu-subdominio.workers.dev/sorteio
+https://exemplo-worker.seu-subdominio.workers.dev/api/contador
+https://exemplo-worker.seu-subdominio.workers.dev/exemplo
 ```
 
 A rota `/teste` deve retornar status `404`.
 
-Para testar a pagina, use o Cloudflare Pages ou um servidor local simples. Isso ajuda o navegador a carregar os arquivos `.md` do indice de desafios corretamente.
+Para testar a página, use o Cloudflare Pages ou um servidor local simples. Isso ajuda o navegador a carregar os arquivos `.md` do índice de desafios corretamente.
 
 ## Como publicar
 
 1. Publique o `worker.js` no Cloudflare Workers.
-2. Confirme que o Worker tem o binding KV chamado `CHAVE KV`.
-3. Publique o `index.html` e os arquivos `.md` no Cloudflare Pages ou no repositorio usado pelo Pages.
-4. Abra a URL do Pages e teste os botoes `Buscar hora`, `Sortear numero` e o contador de visitas.
+2. Confirme que o Worker tem um binding KV configurado.
+3. Publique o `index.html` e os arquivos `.md` no Cloudflare Pages ou no repositório usado pelo Pages.
+4. Abra a URL do Pages e teste os botões `Buscar hora`, `Sortear número` e o contador de visitas.
 
 ## Desafios documentados
 
 - Desafio 1: frase do dia.
-- Desafio 2: saudacao com nome.
+- Desafio 2: saudação com nome.
 - Desafio 3: rotas `/hora` e `/sorteio`.
 - Desafio 4: erro `404` para rota desconhecida.
 - Desafio 5: contador de visitas com KV.

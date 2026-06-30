@@ -1,12 +1,12 @@
-# Explicacao do erro 404
+# Explicação do erro 404
 
-Este arquivo explica como o projeto trata uma rota que nao existe, sem quebrar a pagina.
+Este arquivo explica como o projeto trata uma rota que não existe, sem quebrar a página.
 
 ## Ideia geral
 
-Quando alguem chama uma rota desconhecida, o Worker precisa avisar que aquela rota nao foi encontrada.
+Quando alguém chama uma rota desconhecida, o Worker precisa avisar que aquela rota não foi encontrada.
 
-Esse aviso usa o codigo HTTP `404`.
+Esse aviso usa o código HTTP `404`.
 
 No projeto, isso acontece em duas partes:
 
@@ -15,7 +15,7 @@ No projeto, isso acontece em duas partes:
 
 ## Onde fica no Worker
 
-No `worker.js`, o Worker le o caminho da URL:
+No `worker.js`, o Worker lê o caminho da URL:
 
 ```js
 const url = new URL(request.url);
@@ -31,11 +31,11 @@ Depois ele compara esse caminho com as rotas conhecidas:
 /api/contador
 ```
 
-Se o caminho nao for nenhuma dessas rotas, o codigo cai no `else` final.
+Se o caminho não for nenhuma dessas rotas, o código cai no `else` final.
 
 ## Rota desconhecida
 
-O trecho responsavel pela rota desconhecida e este:
+O trecho responsável pela rota desconhecida é este:
 
 ```js
 return new Response("Rota não encontrada", { status: 404 });
@@ -43,14 +43,14 @@ return new Response("Rota não encontrada", { status: 404 });
 
 Isso significa:
 
-- o corpo da resposta sera o texto `Rota não encontrada`;
-- o codigo HTTP sera `404`.
+- o corpo da resposta será o texto `Rota não encontrada`;
+- o código HTTP será `404`.
 
-O `404` indica que o servidor recebeu a chamada, mas nao encontrou uma rota correspondente.
+O `404` indica que o servidor recebeu a chamada, mas não encontrou uma rota correspondente.
 
-## Por que nao retorna JSON
+## Por que não retorna JSON
 
-As rotas validas do projeto retornam JSON.
+As rotas válidas do projeto retornam JSON.
 
 Exemplo da rota `/hora`:
 
@@ -68,11 +68,11 @@ Mas a rota desconhecida retorna texto simples:
 Rota não encontrada
 ```
 
-Por isso a pagina nao deve tentar executar `resposta.json()` quando a resposta nao deu certo.
+Por isso, a página não deve tentar executar `resposta.json()` quando a resposta não deu certo.
 
-## Como a pagina verifica o erro
+## Como a página verifica o erro
 
-No `index.html`, antes de ler o JSON, a pagina verifica:
+No `index.html`, antes de ler o JSON, a página verifica:
 
 ```js
 if (!resposta.ok) {
@@ -81,13 +81,13 @@ if (!resposta.ok) {
 }
 ```
 
-O `resposta.ok` so e verdadeiro quando o status HTTP esta na faixa de sucesso, como `200`.
+O `resposta.ok` só é verdadeiro quando o status HTTP está na faixa de sucesso, como `200`.
 
-Quando a resposta vem com `404`, o `resposta.ok` e falso.
+Quando a resposta vem com `404`, o `resposta.ok` é falso.
 
-## O que acontece na pratica
+## O que acontece na prática
 
-Se a pagina tentar chamar uma rota errada:
+Se a página tentar chamar uma rota errada:
 
 ```txt
 /teste
@@ -96,27 +96,27 @@ Se a pagina tentar chamar uma rota errada:
 o fluxo fica assim:
 
 1. O navegador chama o Worker.
-2. O Worker le o caminho `/teste`.
-3. O Worker percebe que essa rota nao existe.
+2. O Worker lê o caminho `/teste`.
+3. O Worker percebe que essa rota não existe.
 4. O Worker devolve `Rota não encontrada` com status `404`.
-5. A pagina verifica `resposta.ok`.
-6. Como a resposta nao deu certo, a pagina mostra uma mensagem amigavel.
-7. A pagina nao tenta ler JSON e nao quebra.
+5. A página verifica `resposta.ok`.
+6. Como a resposta não deu certo, a página mostra uma mensagem amigável.
+7. A página não tenta ler JSON e não quebra.
 
-## Mensagem para o usuario
+## Mensagem para o usuário
 
-Quando a resposta nao esta correta, o usuario ve:
+Quando a resposta não está correta, o usuário vê:
 
 ```txt
 Não encontrei essa rota. Tente novamente em alguns instantes.
 ```
 
-Assim o projeto reage bem ao erro.
+Assim, o projeto reage bem ao erro.
 
 ## Resumo
 
 O desafio 4 garante que rotas desconhecidas sejam tratadas corretamente.
 
-O Worker devolve status `404`, e a pagina usa `resposta.ok` para decidir se pode ler JSON ou se deve mostrar uma mensagem de erro amigavel.
+O Worker devolve status `404`, e a página usa `resposta.ok` para decidir se pode ler JSON ou se deve mostrar uma mensagem de erro amigável.
 
-Com isso, a pagina nao trava e nao fica em branco quando algo da errado.
+Com isso, a página não trava e não fica em branco quando algo dá errado.

@@ -1,8 +1,8 @@
-# Explicacao da saudacao
+# Explicação da saudação
 
-Este arquivo explica como a pagina `index.html` conversa com o Worker `worker.js` para enviar um nome e receber uma saudacao personalizada.
+Este arquivo explica como a página `index.html` conversa com o Worker `worker.js` para enviar um nome e receber uma saudação personalizada.
 
-## Campo de nome na pagina
+## Campo de nome na página
 
 No `index.html`, existe um campo de texto:
 
@@ -10,13 +10,13 @@ No `index.html`, existe um campo de texto:
 <input id="nome" type="text" placeholder="Digite seu nome">
 ```
 
-Esse campo permite digitar um nome antes de clicar no botao **Buscar hora**.
+Esse campo permite digitar um nome antes de clicar no botão **Buscar hora**.
 
-O `id="nome"` e importante porque o JavaScript usa esse identificador para encontrar o campo na pagina.
+O `id="nome"` é importante porque o JavaScript usa esse identificador para encontrar o campo na página.
 
 ## Pegando o nome digitado
 
-Dentro da funcao `buscarHora()`, o codigo pega o valor digitado:
+Dentro da função `buscarHora()`, o código pega o valor digitado:
 
 ```js
 const nome = document.getElementById("nome").value.trim();
@@ -24,9 +24,9 @@ const nome = document.getElementById("nome").value.trim();
 
 Essa linha faz o seguinte:
 
-- `document.getElementById("nome")` encontra o input na pagina;
+- `document.getElementById("nome")` encontra o input na página;
 - `.value` pega o texto digitado;
-- `.trim()` remove espacos no comeco e no fim.
+- `.trim()` remove espaços no começo e no fim.
 
 Exemplo:
 
@@ -42,13 +42,13 @@ vira:
 
 ## Montando a URL do Worker
 
-A pagina usa a funcao `montarUrl()` para criar uma URL completa a partir da URL base do Worker:
+A página usa a função `montarUrl()` para criar uma URL completa a partir da URL base do Worker:
 
 ```js
 const url = montarUrl("/hora");
 ```
 
-Se tiver nome, a funcao `buscarHora()` adiciona esse valor como parametro da URL:
+Se tiver nome, a função `buscarHora()` adiciona esse valor como parâmetro da URL:
 
 ```js
 if (nome) {
@@ -59,20 +59,20 @@ if (nome) {
 Com o nome `Maria`, a chamada fica assim:
 
 ```txt
-https://projetinhoestudocloud-api.allnmaxmo.workers.dev/hora?nome=Maria
+https://exemplo-worker.seu-subdominio.workers.dev/hora?nome=Maria
 ```
 
-Se o campo estiver vazio, a pagina chama apenas a rota `/hora`, sem parametro `nome`.
+Se o campo estiver vazio, a página chama apenas a rota `/hora`, sem parâmetro `nome`.
 
 ## Chamando o Worker
 
-A pagina chama o Worker com:
+A página chama o Worker com:
 
 ```js
 const resposta = await fetch(url.toString());
 ```
 
-Antes de ler o JSON, a pagina verifica se a resposta deu certo:
+Antes de ler o JSON, a página verifica se a resposta deu certo:
 
 ```js
 if (!resposta.ok) {
@@ -81,15 +81,15 @@ if (!resposta.ok) {
 }
 ```
 
-Isso evita que a pagina tente ler JSON quando o Worker respondeu com erro, como em uma rota inexistente.
+Isso evita que a página tente ler JSON quando o Worker respondeu com erro, como em uma rota inexistente.
 
-Depois, a resposta e convertida para JSON:
+Depois, a resposta é convertida para JSON:
 
 ```js
 const dados = await resposta.json();
 ```
 
-Agora a variavel `dados` contem os campos enviados pelo Worker:
+Agora a variável `dados` contém os campos enviados pelo Worker:
 
 ```js
 dados.mensagem
@@ -99,18 +99,18 @@ dados.fraseDoDia
 
 ## Lendo o nome no Worker
 
-No `worker.js`, o Worker le o parametro `nome` da URL:
+No `worker.js`, o Worker lê o parâmetro `nome` da URL:
 
 ```js
 const nome = url.searchParams.get("nome");
 const nomeTratado = nome ? nome.trim() : "";
 ```
 
-Se veio nome, o Worker remove espacos extras. Se nao veio nome, usa uma string vazia.
+Se veio nome, o Worker remove espaços extras. Se não veio nome, usa uma string vazia.
 
 ## Montando a mensagem
 
-A mensagem e criada dentro do objeto `corpo`:
+A mensagem é criada dentro do objeto `corpo`:
 
 ```js
 corpo = {
@@ -126,15 +126,15 @@ Se `nomeTratado` tiver valor, a mensagem fica personalizada:
 Olá, Maria!
 ```
 
-Se estiver vazio, aparece a mensagem padrao:
+Se estiver vazio, aparece a mensagem padrão:
 
 ```txt
 Olá estranho!
 ```
 
-## Mostrando a saudacao na tela
+## Mostrando a saudação na tela
 
-No `index.html`, a saudacao recebida do Worker atualiza o titulo principal:
+No `index.html`, a saudação recebida do Worker atualiza o título principal:
 
 ```js
 document.getElementById("titulo").textContent = dados.mensagem;
@@ -152,9 +152,9 @@ vira, por exemplo:
 Olá, Maria!
 ```
 
-## Hora e frase junto da saudacao
+## Hora e frase junto da saudação
 
-A mesma rota `/hora` tambem retorna:
+A mesma rota `/hora` também retorna:
 
 - `horaDoServidor`, com data e hora no formato brasileiro;
 - `fraseDoDia`, com uma frase sorteada pelo Worker.
@@ -163,14 +163,14 @@ Esses dois valores aparecem no elemento `status`, com a hora em uma linha e a fr
 
 ## Fluxo completo
 
-1. Voce digita um nome na pagina.
+1. Você digita um nome na página.
 2. Clica em **Buscar hora**.
-3. A pagina monta a URL `/hora`.
+3. A página monta a URL `/hora`.
 4. Se houver nome, adiciona `?nome=...`.
-5. O Worker le o nome recebido.
-6. O Worker monta a saudacao, a hora e a frase do dia.
+5. O Worker lê o nome recebido.
+6. O Worker monta a saudação, a hora e a frase do dia.
 7. O Worker envia tudo em JSON.
-8. A pagina atualiza o `h1#titulo` com a saudacao.
-9. A pagina mostra a hora e a frase no `#status`.
+8. A página atualiza o `h1#titulo` com a saudação.
+9. A página mostra a hora e a frase no `#status`.
 
-Se nenhum nome for digitado, a pagina continua funcionando e o Worker responde com `Olá estranho!`.
+Se nenhum nome for digitado, a página continua funcionando e o Worker responde com `Olá estranho!`.
