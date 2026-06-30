@@ -382,6 +382,25 @@
     animation: revelar-leitor 260ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
+  body.rota-simples .cabecalho,
+  body.rota-simples .controles,
+  body.rota-simples .indice-desafios,
+  body.rota-simples #contador-visitas {
+    display: none;
+  }
+
+  body.rota-simples .pagina-estudo {
+    width: min(100%, 720px);
+  }
+
+  body.rota-simples .resultado {
+    border-bottom: 0;
+  }
+
+  body.rota-sorteio #titulo {
+    display: none;
+  }
+
   @keyframes revelar-leitor {
     from {
       opacity: 0;
@@ -694,7 +713,8 @@
   // Desafio 1 - frase do dia / Desafio 2 - saudacao / Desafio 3 - rota /hora
   async function buscarHora() {
     const status = document.getElementById("status");
-    const nome = document.getElementById("nome").value.trim();
+    const nomeDaUrl = new URLSearchParams(window.location.search).get("nome");
+    const nome = document.getElementById("nome").value.trim() || (nomeDaUrl ? nomeDaUrl.trim() : "");
     const url = montarUrl("/hora");
 
     if (nome) {
@@ -736,6 +756,11 @@
         return;
       }
       const dados = await resposta.json();
+      if (document.body.classList.contains("rota-sorteio")) {
+        status.textContent = "Número sorteado: " + dados.numeroSorteado;
+        return;
+      }
+
       status.textContent = dados.mensagem + " " + dados.numeroSorteado;
     } catch (erro) {
       status.textContent = "Nao consegui falar com o Worker. Confira a URL.";
@@ -769,24 +794,26 @@
   function iniciarPagina() {
     const caminho = window.location.pathname;
 
-    prepararLeitorDesafios();
-    carregarContador();
-
     if (caminho === "/" || caminho === "/index.html") {
+      prepararLeitorDesafios();
+      carregarContador();
       buscarHora();
       return;
     }
 
     if (caminho === "/hora") {
+      document.body.classList.add("rota-simples", "rota-hora");
       buscarHora();
       return;
     }
 
     if (caminho === "/sorteio") {
+      document.body.classList.add("rota-simples", "rota-sorteio");
       buscarSorteio();
       return;
     }
 
+    document.body.classList.add("rota-simples", "rota-erro");
     buscarRotaDesconhecida(caminho);
   }
 

@@ -50,7 +50,7 @@ Exemplo:
 
 ```json
 {
-  "mensagem": "Olá, Anne!",
+  "mensagem": "Olá, NomeDoUsuario!",
   "horaDoServidor": "29/06/2026, 22:27:29",
   "fraseDoDia": "Acordei disposto... disposto a voltar a dormir."
 }
@@ -110,7 +110,7 @@ contador_de_visitas
 Para testar a API publicada, abra as rotas no navegador:
 
 ```txt
-https://projetinhoestudocloud-api.allnmaxmo.workers.dev/hora?nome=Allan
+https://projetinhoestudocloud-api.allnmaxmo.workers.dev/hora?nome=NomeDoUsuario
 https://projetinhoestudocloud-api.allnmaxmo.workers.dev/sorteio
 https://projetinhoestudocloud-api.allnmaxmo.workers.dev/api/contador
 https://projetinhoestudocloud-api.allnmaxmo.workers.dev/exemplo
