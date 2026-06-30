@@ -96,7 +96,7 @@ com status HTTP `404`.
 O contador usa o binding KV existente:
 
 ```js
-env.kv_key
+env.CHAVE-KV
 ```
 
 A chave usada para salvar o total de visitas e:
@@ -105,17 +105,15 @@ A chave usada para salvar o total de visitas e:
 contador_de_visitas
 ```
 
-O projeto nao cria namespace novo. Ele usa o KV ja configurado na Cloudflare.
-
 ## Como testar
 
 Para testar a API publicada, abra as rotas no navegador:
 
 ```txt
-https://projetinhoestudocloud-api.allnmaxmo.workers.dev/hora?nome=Anne
+https://projetinhoestudocloud-api.allnmaxmo.workers.dev/hora?nome=Allan
 https://projetinhoestudocloud-api.allnmaxmo.workers.dev/sorteio
 https://projetinhoestudocloud-api.allnmaxmo.workers.dev/api/contador
-https://projetinhoestudocloud-api.allnmaxmo.workers.dev/teste
+https://projetinhoestudocloud-api.allnmaxmo.workers.dev/exemplo
 ```
 
 A rota `/teste` deve retornar status `404`.
@@ -125,7 +123,7 @@ Para testar a pagina, use o Cloudflare Pages ou um servidor local simples. Isso 
 ## Como publicar
 
 1. Publique o `worker.js` no Cloudflare Workers.
-2. Confirme que o Worker tem o binding KV chamado `kv_key`.
+2. Confirme que o Worker tem o binding KV chamado `CHAVE KV`.
 3. Publique o `index.html` e os arquivos `.md` no Cloudflare Pages ou no repositorio usado pelo Pages.
 4. Abra a URL do Pages e teste os botoes `Buscar hora`, `Sortear numero` e o contador de visitas.
 

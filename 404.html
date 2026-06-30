@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rota não encontrada</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #09090b;
+    --panel: #111113;
+    --line: #2a2a2f;
+    --text: #f4f4f5;
+    --muted: #a1a1aa;
+    --accent: #a7b8a2;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+    padding: 28px;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.025), transparent 260px),
+      var(--bg);
+    color: var(--text);
+  }
+
+  main {
+    width: min(100%, 720px);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 28px;
+    background: rgba(17, 17, 19, 0.94);
+  }
+
+  p:first-child {
+    margin: 0 0 12px;
+    color: var(--accent);
+    font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+    font-size: 13px;
+  }
+
+  h1 {
+    margin: 0;
+    color: var(--text);
+    font-size: clamp(38px, 7vw, 72px);
+    line-height: 0.96;
+    letter-spacing: 0;
+  }
+
+  p {
+    margin: 18px 0 0;
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  a {
+    color: var(--accent);
+  }
+</style>
+</head>
+<body>
+  <main>
+    <p>erro 404</p>
+    <h1>Rota não encontrada</h1>
+    <p>Essa rota não existe neste projeto. Volte para a <a href="/">página inicial</a> e tente novamente.</p>
+  </main>
+</body>
+</html>

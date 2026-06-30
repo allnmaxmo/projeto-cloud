@@ -742,11 +742,57 @@
     }
   }
 
+  // Desafio 4 - erro 404 para rota desconhecida no frontend
+  async function buscarRotaDesconhecida(caminho) {
+    const titulo = document.getElementById("titulo");
+    const status = document.getElementById("status");
+    const url = montarUrl(caminho);
+
+    titulo.textContent = "Rota não encontrada";
+    status.textContent = "Verificando rota no Worker...";
+
+    try {
+      const resposta = await fetch(url.toString());
+      const texto = await resposta.text();
+
+      if (!resposta.ok) {
+        status.textContent = texto || "Não encontrei essa rota. Tente novamente em alguns instantes.";
+        return;
+      }
+
+      status.textContent = "A rota " + caminho + " respondeu, mas não faz parte da navegação desta página.";
+    } catch (erro) {
+      status.textContent = "Não consegui verificar essa rota no Worker. Confira a URL.";
+    }
+  }
+
+  function iniciarPagina() {
+    const caminho = window.location.pathname;
+
+    prepararLeitorDesafios();
+    carregarContador();
+
+    if (caminho === "/" || caminho === "/index.html") {
+      buscarHora();
+      return;
+    }
+
+    if (caminho === "/hora") {
+      buscarHora();
+      return;
+    }
+
+    if (caminho === "/sorteio") {
+      buscarSorteio();
+      return;
+    }
+
+    buscarRotaDesconhecida(caminho);
+  }
+
   document.getElementById("btnHora").addEventListener("click", buscarHora);
   document.getElementById("btnSorteio").addEventListener("click", buscarSorteio);
-  prepararLeitorDesafios();
-  carregarContador();
-  buscarHora();
+  iniciarPagina();
 </script>
 </body>
 </html>
